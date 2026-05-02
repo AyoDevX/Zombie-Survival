@@ -38,9 +38,7 @@ class Hero():
         self.max_lives = 3
         self.jumpAnimCount = 0
         
-        
     def draw(self, screen):
-        #self.hitbox = (self.x + 35 , self.y + 35 ,self.width - 70, self.height - 30 )
         self.update_hitbox()
         if self.isDying:
             if self.right:
@@ -94,9 +92,6 @@ class Hero():
             else:
                 screen.blit(assets.hw_left[0], (self.x, self.y))
                 
-        
-        #pygame.draw.rect(screen, RED, self.hitbox,2)
-            
     def move(self, keys, screen_width):
         if keys[pygame.K_LEFT] and self.x - self.step >=0 :
             self.x -= self.step
@@ -115,7 +110,6 @@ class Hero():
             if self.walkCount % 10 == 0 and self.footstep_sound:
                 self.footstep_sound.play()
                 
-            
     def jump(self, keys):
         if not self.isJumping:
             
@@ -166,13 +160,8 @@ class Hero():
                 attack_w,
                 attack_h
             )
-        # if self.left:
-        #     return pygame.Rect(self.x - 60, self.y + 20, 70,self.height - 40)
-        # else:
-        #     return pygame.Rect(self.x + self.width, self.y + 20, 70, self.height - 40)
-        
+  
     def update_hitbox(self):
-        #self.hitbox = pygame.Rect(self.x + 25, self.y + 20, self.width - 20, self.height -20)
             # نأخذ المنتصف الحقيقي للشخصية وندع هامش من كل جهة
         margin_x = int(self.width * 0.30)   # 30% من كل جانب
         margin_top = int(self.height * 0.20) # 20% من فوق

@@ -48,13 +48,13 @@ screen_width = 700
 screen_height = 500
 clock = pygame.time.Clock()
 score = Score()
-last_spawn_score = 0
 
-#RGB
-BLACK = (0,0,0) 
+#RGB 
 WHITE = (255,255,255) 
 RED = (255,0,0) 
 GREEN = (34, 139, 34)
+
+GROUND_Y = 365
 
 #MAIN SETTINGS :
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -81,10 +81,6 @@ aid_kit_img = pygame.transform.scale(aid_kit_img, (50, 50))
 #damage font
 font = pygame.font.SysFont("comicsans", 20)
 damage_texts = []
-#game over font
-game_over_font = pygame.font.SysFont("Arial", 60)
-restart_font = pygame.font.SysFont("Arial", 30)
-
 
 #MAIN CHARACTERS:
 hero = Hero(x=579, y=365, width=100, height=100)
@@ -98,7 +94,6 @@ game_state = {
     "in_gameover": False,
     "in_menu": True,
     "in_victory": False,
-    "in_final_victory": False,
     "in_win": False,
 }
 LEVEL_CONFIG = {
@@ -207,6 +202,8 @@ def draw_gameover_menu():
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
 
     pygame.display.update()
+    
+final_font = pygame.font.SysFont("Arial", 28, bold=True)
 
 def draw_victory_screen(is_final=False):
     global hovered_victory_button
@@ -225,7 +222,7 @@ def draw_victory_screen(is_final=False):
         else:
             pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
     else:
-        final_font = pygame.font.SysFont("Arial", 28, bold=True)
+        
         final_text = final_font.render("Press any key to return to Menu", True, WHITE)
         screen.blit(final_text, (screen_width // 2 - final_text.get_width() // 2, 460))
     pygame.display.update()
@@ -254,7 +251,7 @@ hovered_win_button = None
 last_zombie_hurt_sound = 0
 last_hero_hurt_sound = 0
 aid_kit = None
-next_aid_score = 700
+next_aid_score = 400
 #MAIN LOOP :
 run = True
 while run:
@@ -373,9 +370,10 @@ while run:
         hero.move(keys,screen_width)
         hero.jump(keys)
         
+        current_time = pygame.time.get_ticks()
         for zombie in zombies:
             zombie.check_attack(hero)
-            current_time = pygame.time.get_ticks()
+            
         if hero.isHurt:
             if current_time - last_hero_hurt_sound > 600:
                 hero_hurt_sound.play()
@@ -414,7 +412,6 @@ while run:
     # ====================================== SPAWN SYSTEM ======================================  
     config = LEVEL_CONFIG[game_state["level"]]
     if len(zombies) == 0:
-        GROUND_Y = 365
         if game_state["wave"] >= config["max_wave"] and not game_state["boss_spawned"]:
             # spawn البوسات
             positions = [100, 300, 500]
@@ -446,7 +443,7 @@ while run:
             game_state["wave"] += 1
             for i in range(game_state["wave"]):
                 zombies.append(Zombie(x=random.randint(0,600), y=335, width=100, height=100, end=600)) 
-                zombie_group_sound.play()
+            zombie_group_sound.play()
                 
     # ====================================== GAME OVER CHECK ======================================
     if hero.lives <= 0 and not hero.isDying :
@@ -459,7 +456,7 @@ while run:
     # ====== AID KIT ======
     if score.value >= next_aid_score and aid_kit is None:
         aid_kit = {"x": random.randint(50, 600), "y": 370}
-        next_aid_score += 700
+        next_aid_score += 400
 
     if aid_kit:
         aid_rect = pygame.Rect(aid_kit["x"], aid_kit["y"], 50, 50)

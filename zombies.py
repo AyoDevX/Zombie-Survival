@@ -101,10 +101,6 @@ class Zombie():
 
         if self.walkCount >= len(self.type[direction]) * 2:
             self.walkCount = 0
-
-    # hitbox
-        #self.hitbox = (self.x + 45, self.y + 60, self.width - 70, self.height - 30)
-        #pygame.draw.rect(screen, RED, self.hitbox, 2)
         self.draw_health_bar(screen)
 
     def move(self):
@@ -119,6 +115,7 @@ class Zombie():
                 self.step *= -1
             else:
                 self.x += self.step
+                
     def check_attack(self, hero):
         if not self.isAlive or self.isDying:
             return
@@ -137,44 +134,10 @@ class Zombie():
                 hero.isHurt = True
                 hero.hurtCount = 0
                 self.last_attack_time = current_time
-            #     current_time_hurt = pygame.time.get_ticks()
-            # if current_time_hurt - hero.last_hurt_sound > 600:
-            #     hero.last_hurt_sound_time = current_time_hurt
+
         else:
             self.isAttacking = False           
-    # def check_attack(self, hero):
-    #     if not self.isAlive  or self.isDying:
-    #         return
-    #     current_time = pygame.time.get_ticks()
-      
-    #     hx, hy, hw, hh = hero.hitbox
-    #     zx, zy, zw, zh = self.hitbox
-        
-    #     distance = abs(self.x - hero.x)
-    #     if distance < self.attack_range and not hero.isDying:
-    #         self.isAttacking = True
-        
-             
-             
-    #         if current_time - self.last_attack_time > self.attack_cooldown:
-    #              hero.health -= self.damage
-    #              if hero.health <= 0 and hero.lives > 0:
-    #                  hero.lives -= 1
-    #                  hero.health = 100
-    #              hero.isHurt = True
-    #              hero.hurtCount = 0
-                 
-                 
-    #              self.last_attack_time = current_time
-    #         #  else:
-    #         #      hero.isHurt = False
-    #     else:
-    #         self.isAttacking = False
-    #         # hero.isHurt = False
-             
-             
-                
-    
+
     def draw_health_bar(self, screen):
          # ❤️ Zombie Health Bar
         bar_width = 60
@@ -185,17 +148,11 @@ class Zombie():
     # الأحمر
         pygame.draw.rect(screen, (255, 0, 0), (bar_x, bar_y, bar_width, bar_height))
     # الأخضر
-        # ratio = max(0, self.health) / 50
         ratio = max(0, self.health) / self.max_health
         pygame.draw.rect(screen, (0, 255, 0), (bar_x, bar_y, bar_width * ratio, bar_height))
     # border
         pygame.draw.rect(screen, (255, 255, 255), (bar_x, bar_y, bar_width, bar_height), 1)
         
-    # def update_hitbox(self):
-    #     if self.width > 100:
-    #         self.hitbox = pygame.Rect(self.x + 60, self.y + 50, self.width - 120, self.height - 70) 
-    #     else:
-    #         self.hitbox = pygame.Rect(self.x + 35, self.y + 35, self.width - 70, self.height - 30)
     def update_hitbox(self):
         if self.width > 100:  # Boss
             margin_x = int(self.width * 0.30)
