@@ -36,6 +36,7 @@ class Hero():
         self.sword_sounds = None
         self.lives = 3
         self.max_lives = 3
+        self.jumpAnimCount = 0
         
         
     def draw(self, screen):
@@ -63,6 +64,16 @@ class Hero():
             if self.hurtCount >= len(assets.hero_hurt["right"]) * 2:
                 self.hurtCount = 0
                 self.isHurt = False
+            return
+        
+        if self.isJumping:
+            if self.right:
+                screen.blit(assets.hero_jump["right"][self.jumpAnimCount // 2], (self.x, self.y))
+            else:
+                screen.blit(assets.hero_jump["left"][self.jumpAnimCount // 2], (self.x, self.y))
+            self.jumpAnimCount += 1
+            if self.jumpAnimCount >= len(assets.hero_jump["right"]) * 2:
+                self.jumpAnimCount = 0
             return
         
         if not self.standing:

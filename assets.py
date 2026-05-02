@@ -427,3 +427,18 @@ boss_types_walk = [zombie_boss_walk]
 boss_types_attack = [zombie_boss_attack]
 boss_types_die = [zombie_boss_die]
 boss_types_hurt = [zombie_boss_hurt]
+
+
+
+    
+# JUMP - Sprite Sheet
+_jump_sheet = pygame.image.load("hero/jump_sheet.png")
+_frame_count = 6
+_frame_w = _jump_sheet.get_width() // _frame_count
+_frame_h = _jump_sheet.get_height()
+hero_jump = {"right": [], "left": []}
+for i in range(_frame_count):
+    frame = _jump_sheet.subsurface((_frame_w * i, 0, _frame_w, _frame_h))
+    frame = pygame.transform.scale(frame, (100, 100))
+    hero_jump["right"].append(frame)
+    hero_jump["left"].append(pygame.transform.flip(frame, True, False))

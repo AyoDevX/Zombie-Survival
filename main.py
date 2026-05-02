@@ -236,7 +236,6 @@ def draw_victory_screen(is_final=False):
 def draw_win_screen():
     global hovered_win_button
     screen.blit(win_bg, (0, 0))
-    pygame.draw.rect(screen,(0,255,0),thankyou_button,2)
     mouse_pos = pygame.mouse.get_pos()
     current_hover = None
     if thankyou_button.collidepoint(mouse_pos):
@@ -455,8 +454,6 @@ while run:
         hero.isHurt = False
         gameover_sound.play()
         game_state["in_gameover"] = True
-        
-
         
 
     drawtheGame()
