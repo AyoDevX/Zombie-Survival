@@ -73,6 +73,8 @@ victory_bg = pygame.image.load("victory.png")
 victory_bg = pygame.transform.scale(victory_bg, (screen_width, screen_height))
 win_bg = pygame.image.load("win.png")
 win_bg = pygame.transform.scale(win_bg, (screen_width, screen_height))
+aid_kit_img = pygame.image.load("aid_kit.png").convert_alpha()
+aid_kit_img = pygame.transform.scale(aid_kit_img, (50, 50))
 
 
 #FONTS :
@@ -89,13 +91,6 @@ hero = Hero(x=579, y=365, width=100, height=100)
 hero.footstep_sound = footstep_sound
 hero.sword_sounds = sword_sounds
 zombies = [Zombie(x=0, y=335, width=100, height=100, end=600)]
-# game_state = {
-#     "wave": 1,
-#     "boss_spawned": False,
-#     "in_gameover": False,
-#     "in_menu": True,
-# }
-# MAX_WAVE = 3
 game_state = {
     "level": 1,
     "wave": 1,
@@ -160,6 +155,8 @@ def drawtheGame():
               
     score.update()
     score.draw(screen)
+    if aid_kit:
+        screen.blit(aid_kit_img, (aid_kit["x"], aid_kit["y"]))
         
     pygame.display.update()
     
@@ -256,6 +253,8 @@ hovered_victory_button = None
 hovered_win_button = None
 last_zombie_hurt_sound = 0
 last_hero_hurt_sound = 0
+aid_kit = None
+next_aid_score = 700
 #MAIN LOOP :
 run = True
 while run:
@@ -349,6 +348,8 @@ while run:
                     game_state["in_gameover"] = False
                     game_state["in_victory"] = False
                     game_state["in_win"] = False
+                    aid_kit = None
+                    next_aid_score = 700
                    
                     
                 # MAIN MENU
@@ -454,6 +455,18 @@ while run:
         hero.isHurt = False
         gameover_sound.play()
         game_state["in_gameover"] = True
+        
+    # ====== AID KIT ======
+    if score.value >= next_aid_score and aid_kit is None:
+        aid_kit = {"x": random.randint(50, 600), "y": 370}
+        next_aid_score += 700
+
+    if aid_kit:
+        aid_rect = pygame.Rect(aid_kit["x"], aid_kit["y"], 50, 50)
+        hero_rect = pygame.Rect(hero.x, hero.y, hero.width, hero.height)
+        if aid_rect.colliderect(hero_rect):
+            hero.health = 100
+            aid_kit = None
         
 
     drawtheGame()
