@@ -76,21 +76,21 @@ class Hero():
         
         if not self.standing:
             if self.right:
-                screen.blit(assets.hw_right[self.walkCount // 2],(self.x, self.y))
+                screen.blit(assets.hero_walk["right"][self.walkCount // 2],(self.x, self.y))
                 self.walkCount += 1
                 if self.walkCount == 20:
                     self.walkCount = 0
 
             elif self.left:
-                screen.blit(assets.hw_left[self.walkCount // 2], (self.x, self.y))
+                screen.blit(assets.hero_walk["left"][self.walkCount // 2], (self.x, self.y))
                 self.walkCount += 1
                 if self.walkCount == 20:
                     self.walkCount = 0
         else:
             if self.right:
-                screen.blit(assets.hw_right[0], (self.x, self.y))
+                screen.blit(assets.hero_walk["right"][0], (self.x, self.y))
             else:
-                screen.blit(assets.hw_left[0], (self.x, self.y))
+                screen.blit(assets.hero_walk["left"][0], (self.x, self.y))
                 
     def move(self, keys, screen_width):
         if keys[pygame.K_LEFT] and self.x - self.step >=0 :

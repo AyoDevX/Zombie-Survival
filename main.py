@@ -61,10 +61,10 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("ZOMBIE SURVIVAL")
 bg = pygame.image.load("bg.png")
 bg = pygame.transform.scale(bg, (screen_width, screen_height))
-heart_full = pygame.image.load("heart_full.png").convert_alpha()
-heart_empty = pygame.image.load("heart_empty.png")
-heart_full = pygame.transform.scale(heart_full, (25, 25))
-heart_empty = pygame.transform.scale(heart_empty, (25, 25))
+# heart_full = pygame.image.load("heart_full.png").convert_alpha()
+# heart_empty = pygame.image.load("heart_empty.png")
+# heart_full = pygame.transform.scale(heart_full, (25, 25))
+# heart_empty = pygame.transform.scale(heart_empty, (25, 25))
 menu_bg = pygame.image.load("menu.png")
 menu_bg = pygame.transform.scale(menu_bg, (screen_width, screen_height))
 gameover_bg = pygame.image.load("game_over.png")
@@ -78,9 +78,11 @@ aid_kit_img = pygame.transform.scale(aid_kit_img, (50, 50))
 
 
 #FONTS :
-#damage font
+
 font = pygame.font.SysFont("comicsans", 20)
 damage_texts = []
+pause_font = pygame.font.SysFont("Arial", 40, bold=True)
+pause_small_font = pygame.font.SysFont("Arial", 22)
 
 #MAIN CHARACTERS:
 hero = Hero(x=579, y=365, width=100, height=100)
@@ -95,6 +97,7 @@ game_state = {
     "in_menu": True,
     "in_victory": False,
     "in_win": False,
+    "paused": False,
 }
 LEVEL_CONFIG = {
     1: {"max_wave": 5,  "start_zombies": 1, "boss_count": 1, "boss_health": 200},
@@ -111,24 +114,110 @@ menu_button = pygame.Rect(350,430,200,54)
 next_level_button = pygame.Rect(245, 420, 219, 55)
 thankyou_button = pygame.Rect(230, 420, 236, 50)
 
-def draw_health_bar(screen, x, y, width, height, current_hp, max_hp):
-    # الخلفية (أحمر)
-    pygame.draw.rect(screen, (255, 0, 0), (x, y, width, height))
-    
-    # حساب الصحة الحالية
-    ratio = max( 0, current_hp) / max_hp
-    pygame.draw.rect(screen, (0, 255, 0), (x, y, width * ratio, height))
-    pygame.draw.rect(screen, (255,255,255),(x, y, width, height),2)
+def draw_pause_screen():
+    overlay = pygame.Surface((screen_width, screen_height), pygame.SRCALPHA)
+    overlay.fill((0, 0, 0, 150))
+    screen.blit(overlay, (0, 0))
+    pause_text = pause_font.render("PAUSE", True, WHITE)
+    resume_text = pause_small_font.render("Press ESC to Resume", True, WHITE)
+    screen.blit(pause_text, (screen_width // 2 - pause_text.get_width() // 2, 180))
+    screen.blit(resume_text, (screen_width // 2 - resume_text.get_width() // 2, 260))
+    pygame.display.update()
 
-def draw_hearts(screen, hero):
+# def draw_health_bar(screen, x, y, width, height, current_hp, max_hp):
+#     # الخلفية (أحمر)
+#     pygame.draw.rect(screen, (255, 0, 0), (x, y, width, height))
+    
+#     # حساب الصحة الحالية
+#     ratio = max( 0, current_hp) / max_hp
+#     pygame.draw.rect(screen, (0, 255, 0), (x, y, width * ratio, height))
+#     pygame.draw.rect(screen, (255,255,255),(x, y, width, height),2)
+
+# def draw_hearts(screen, hero):
+#     for i in range(hero.max_lives):
+#         x = 220 + i *20
+#         y = 17
+#         if i < hero.lives:
+#             screen.blit(heart_full, (x, y))
+#         else:
+#             screen.blit(heart_empty, (x, y))
+
+def draw_hud(screen, hero, score, game_state):
+    config = LEVEL_CONFIG[game_state["level"]]
+
+    # خلفية الـ HUD
+    hud_surface = pygame.Surface((screen_width, 32), pygame.SRCALPHA)
+    hud_surface.fill((0, 0, 0, 170))
+    screen.blit(hud_surface, (0, 0))
+    pygame.draw.line(screen, (58, 58, 42), (0, 32), (screen_width, 32), 1)
+
+    hud_font  = pygame.font.SysFont("Courier New", 11, bold=True)
+    val_font  = pygame.font.SysFont("Courier New", 13, bold=True)
+
+    # ===== HP =====
+    x = 10
+    lbl = hud_font.render("HP", True, (138, 170, 85))
+    screen.blit(lbl, (x, 10))
+    x += lbl.get_width() + 6
+    pygame.draw.rect(screen, (42, 26, 26), (x, 11, 100, 10))
+    pygame.draw.rect(screen, (90, 42, 42), (x, 11, 100, 10), 1)
+    hp_w = int(max(0, hero.health) / 100 * 100)
+    hp_color = (204, 51, 51) if hero.health > 30 else (255, 100, 0)
+    pygame.draw.rect(screen, hp_color, (x, 11, hp_w, 10))
+    x += 106
+    hp_txt = val_font.render(str(hero.health), True, (204, 85, 85))
+    screen.blit(hp_txt, (x, 9))
+    x += hp_txt.get_width() + 14
+
+    # ===== LIVES =====
+    lbl2 = hud_font.render("LIVES", True, (138, 170, 85))
+    screen.blit(lbl2, (x, 10))
+    x += lbl2.get_width() + 6
     for i in range(hero.max_lives):
-        x = 220 + i *20
-        y = 17
-        if i < hero.lives:
-            screen.blit(heart_full, (x, y))
-        else:
-            screen.blit(heart_empty, (x, y))
-        
+        color = (204, 51, 51) if i < hero.lives else (51, 51, 51)
+        heart_points = [
+            (x+7, y) for x, y in [
+                (0,4),(2,0),(7,0),(7,4),(12,4),(12,0),(17,0),(19,4),
+                (19,8),(9,18),(0,8)
+            ]
+        ]
+        heart_pts = [
+            (x + 0,  13), (x + 2,  10), (x + 5,  10),
+            (x + 7,  13), (x + 9,  10), (x + 12, 10),
+            (x + 14, 13), (x + 14, 16), (x + 7,  22),
+            (x + 0,  16)
+        ]
+        pygame.draw.polygon(screen, color, heart_pts)
+        x += 18
+    x += 10
+
+    # ===== WAVE =====
+    lbl3 = hud_font.render("WAVE", True, (138, 170, 85))
+    screen.blit(lbl3, (x, 10))
+    x += lbl3.get_width() + 6
+    wave_txt = val_font.render(
+        f"{game_state['wave']}/{config['max_wave']}",
+        True, (221, 204, 136)
+    )
+    screen.blit(wave_txt, (x, 9))
+
+    # ===== SCORE =====
+    score_lbl = hud_font.render("SCORE", True, (138, 170, 85))
+    score_color = (255, 255, 68) if score.flash_timer > 0 else (255, 221, 68)
+    score_val = val_font.render(str(score.value).zfill(5), True, score_color)
+    sx = screen_width - score_val.get_width() - 10
+    slx = sx - score_lbl.get_width() - 6
+    screen.blit(score_lbl, (slx, 10))
+    screen.blit(score_val, (sx, 9))
+
+    # ===== LEVEL =====
+    level_lbl = hud_font.render(
+        f"LEVEL {game_state['level']}",
+        True, (136, 187, 221)
+    )
+    lx = screen_width // 2 - level_lbl.get_width() // 2 + 30
+    screen.blit(level_lbl, (lx, 10))
+
 def drawtheGame():
     screen.blit(bg, (0, 0))
     for zombie in zombies:
@@ -136,12 +225,10 @@ def drawtheGame():
     
     if hero.isAttacking:
         hero.draw_attack(screen)
-        # attack_box = hero.get_attack_hitbox()
-        # pygame.draw.rect(screen,GREEN,attack_box,2)
     else:
         hero.draw(screen)
-    draw_health_bar(screen, 20, 20, 200, 20, hero.health, 100)
-    draw_hearts(screen, hero)
+    # draw_health_bar(screen, 20, 20, 200, 20, hero.health, 100)
+    # draw_hearts(screen, hero)
     
     for text in damage_texts[:]:
         text.draw(screen, font)
@@ -149,10 +236,10 @@ def drawtheGame():
             damage_texts.remove(text)
               
     score.update()
-    score.draw(screen)
+    # score.draw(screen)
     if aid_kit:
         screen.blit(aid_kit_img, (aid_kit["x"], aid_kit["y"]))
-        
+    draw_hud(screen, hero, score, game_state)   
     pygame.display.update()
     
 def draw_menu():
@@ -362,8 +449,14 @@ while run:
         if event.type == pygame.QUIT:
             pygame.quit()
             quit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                game_state["paused"] = not game_state["paused"]
             
     keys = pygame.key.get_pressed()
+    if game_state["paused"]:
+        draw_pause_screen()
+        continue
     
     # ====================================== HERO ACTIONS ======================================
     if not hero.isDying:
