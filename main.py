@@ -124,24 +124,6 @@ def draw_pause_screen():
     screen.blit(resume_text, (screen_width // 2 - resume_text.get_width() // 2, 260))
     pygame.display.update()
 
-# def draw_health_bar(screen, x, y, width, height, current_hp, max_hp):
-#     # الخلفية (أحمر)
-#     pygame.draw.rect(screen, (255, 0, 0), (x, y, width, height))
-    
-#     # حساب الصحة الحالية
-#     ratio = max( 0, current_hp) / max_hp
-#     pygame.draw.rect(screen, (0, 255, 0), (x, y, width * ratio, height))
-#     pygame.draw.rect(screen, (255,255,255),(x, y, width, height),2)
-
-# def draw_hearts(screen, hero):
-#     for i in range(hero.max_lives):
-#         x = 220 + i *20
-#         y = 17
-#         if i < hero.lives:
-#             screen.blit(heart_full, (x, y))
-#         else:
-#             screen.blit(heart_empty, (x, y))
-
 def draw_hud(screen, hero, score, game_state):
     config = LEVEL_CONFIG[game_state["level"]]
 
@@ -200,7 +182,7 @@ def draw_hud(screen, hero, score, game_state):
         True, (221, 204, 136)
     )
     screen.blit(wave_txt, (x, 9))
-
+    
     # ===== SCORE =====
     score_lbl = hud_font.render("SCORE", True, (138, 170, 85))
     score_color = (255, 255, 68) if score.flash_timer > 0 else (255, 221, 68)
@@ -217,6 +199,13 @@ def draw_hud(screen, hero, score, game_state):
     )
     lx = screen_width // 2 - level_lbl.get_width() // 2 + 30
     screen.blit(level_lbl, (lx, 10))
+    
+    # ===== DESCRIPTION ======
+    bottom_surface = pygame.Surface((screen_width, 20), pygame.SRCALPHA)
+    bottom_surface.fill((0, 0, 0, 150))
+    screen.blit(bottom_surface, (0, screen_height - 20))
+    ctrl_txt = hud_font.render("ESC: Pause      Space: Jump     <-- -->: Move      A: Attack", True, (80, 100, 70))
+    screen.blit(ctrl_txt, (screen_width // 2 - ctrl_txt.get_width() // 2, screen_height - 16))
 
 def drawtheGame():
     screen.blit(bg, (0, 0))
