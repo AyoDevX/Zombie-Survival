@@ -1,12 +1,7 @@
 import pygame
 import assets
 import random
-
-BLACK = (0,0,0) 
-WHITE = (255,255,255) 
-RED = (255,0,0) 
-GREEN = (34, 139, 34)
-
+from constants import WHITE, RED, GREEN
 
 class Hero():
     def __init__(self, x, y, width, height):
@@ -172,12 +167,4 @@ class Hero():
             self.width - margin_x * 2,
             self.height - margin_top - margin_bot
         )
-        
-        
-    
-
-    
-            
-                
-                
-                
+       

@@ -5,8 +5,9 @@ from hero import Hero
 from zombies import Zombie
 from damage_text import DamageText
 from score import Score
-succ , fail = pygame.init()
-print(succ,fail)
+from constants import WHITE, RED, GREEN
+
+pygame.init()
 
 
 #SOUNDS EFECTS :
@@ -49,11 +50,6 @@ screen_height = 500
 clock = pygame.time.Clock()
 score = Score()
 
-#RGB 
-WHITE = (255,255,255) 
-RED = (255,0,0) 
-GREEN = (34, 139, 34)
-
 GROUND_Y = 365
 
 #MAIN SETTINGS :
@@ -61,10 +57,6 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("ZOMBIE SURVIVAL")
 bg = pygame.image.load("bg.png")
 bg = pygame.transform.scale(bg, (screen_width, screen_height))
-# heart_full = pygame.image.load("heart_full.png").convert_alpha()
-# heart_empty = pygame.image.load("heart_empty.png")
-# heart_full = pygame.transform.scale(heart_full, (25, 25))
-# heart_empty = pygame.transform.scale(heart_empty, (25, 25))
 menu_bg = pygame.image.load("menu.png")
 menu_bg = pygame.transform.scale(menu_bg, (screen_width, screen_height))
 gameover_bg = pygame.image.load("game_over.png")
@@ -124,6 +116,8 @@ def draw_pause_screen():
     screen.blit(resume_text, (screen_width // 2 - resume_text.get_width() // 2, 260))
     pygame.display.update()
 
+hud_font  = pygame.font.SysFont("Courier New", 11, bold=True)
+val_font  = pygame.font.SysFont("Courier New", 13, bold=True)
 def draw_hud(screen, hero, score, game_state):
     config = LEVEL_CONFIG[game_state["level"]]
 
@@ -133,8 +127,6 @@ def draw_hud(screen, hero, score, game_state):
     screen.blit(hud_surface, (0, 0))
     pygame.draw.line(screen, (58, 58, 42), (0, 32), (screen_width, 32), 1)
 
-    hud_font  = pygame.font.SysFont("Courier New", 11, bold=True)
-    val_font  = pygame.font.SysFont("Courier New", 13, bold=True)
 
     # ===== HP =====
     x = 10
@@ -157,12 +149,7 @@ def draw_hud(screen, hero, score, game_state):
     x += lbl2.get_width() + 6
     for i in range(hero.max_lives):
         color = (204, 51, 51) if i < hero.lives else (51, 51, 51)
-        heart_points = [
-            (x+7, y) for x, y in [
-                (0,4),(2,0),(7,0),(7,4),(12,4),(12,0),(17,0),(19,4),
-                (19,8),(9,18),(0,8)
-            ]
-        ]
+
         heart_pts = [
             (x + 0,  13), (x + 2,  10), (x + 5,  10),
             (x + 7,  13), (x + 9,  10), (x + 12, 10),
@@ -422,7 +409,7 @@ while run:
                     game_state["in_victory"] = False
                     game_state["in_win"] = False
                     aid_kit = None
-                    next_aid_score = 700
+                    next_aid_score = 400
                    
                     
                 # MAIN MENU
