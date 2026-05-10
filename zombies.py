@@ -13,7 +13,7 @@ class Zombie():
         self.end = end
         self.walkCount = 0
         self.step = 3
-        # 👇 check واش boss ولا لا
+        # 👇 check if boss or not
         if width > 100:
             self.type = assets.boss_types_walk[0]
             self.attack_type = assets.boss_types_attack[0]
@@ -54,13 +54,13 @@ class Zombie():
             self.move()
         
 
-    # اتجاه
+    # direction
         if self.step < 0:
             direction = "left"
         else:
             direction = "right"
 
-    # 💀 dying (الأولوية)
+    # 💀 dying 
         if self.isDying:
             screen.blit(self.die_type[direction][self.dieCount // 2], (self.x, self.y))
             self.dieCount += 1
@@ -117,7 +117,6 @@ class Zombie():
         hero.update_hitbox() 
         current_time = pygame.time.get_ticks()
 
-    # استخدم الـ hitbox بدل self.x
         if self.hitbox.colliderect(hero.hitbox) and not hero.isDying:
             self.isAttacking = True
             if current_time - self.last_attack_time > self.attack_cooldown:
@@ -139,9 +138,9 @@ class Zombie():
         bar_x = self.x + (self.width // 2) - (bar_width // 2)
         bar_y = self.y + 30
 
-    # الأحمر
+    # red
         pygame.draw.rect(screen, (255, 0, 0), (bar_x, bar_y, bar_width, bar_height))
-    # الأخضر
+    # green
         ratio = max(0, self.health) / self.max_health
         pygame.draw.rect(screen, (0, 255, 0), (bar_x, bar_y, bar_width * ratio, bar_height))
     # border
@@ -152,7 +151,7 @@ class Zombie():
             margin_x = int(self.width * 0.30)
             margin_top = int(self.height * 0.25)
             margin_bot = int(self.height * 0.10)
-        else:  # زومبي عادي
+        else:  # normal zombie
             margin_x = int(self.width * 0.32)
             margin_top = int(self.height * 0.30)
             margin_bot = int(self.height * 0.10)

@@ -131,16 +131,16 @@ class Hero():
             else:
                 screen.blit(attack["left"][self.attackCount // 2], (self.x, self.y))
             self.attackCount += 1
-            # منين تسالي animation
+            # when the annimation finished :
             if self.attackCount >= len(attack["right"]) * 2:
                 self.attackCount = 0
                 self.isAttacking = False
                 self.hasHit = False
                 
     def get_attack_hitbox(self):
-        attack_w = int(self.width * 0.65)  # عرض منطقة الضربة
-        attack_h = int(self.height * 0.55) # ارتفاعها
-        offset_y = int(self.height * 0.25) # من أين تبدأ رأسياً
+        attack_w = int(self.width * 0.65)  # width of the hit part
+        attack_h = int(self.height * 0.55) # height of the hit part
+        offset_y = int(self.height * 0.25) # where the hit begin 
         if self.left:
             return pygame.Rect(
                 self.hitbox.left - attack_w,

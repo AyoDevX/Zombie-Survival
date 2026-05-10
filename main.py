@@ -203,16 +203,12 @@ def drawtheGame():
         hero.draw_attack(screen)
     else:
         hero.draw(screen)
-    # draw_health_bar(screen, 20, 20, 200, 20, hero.health, 100)
-    # draw_hearts(screen, hero)
-    
+
     for text in damage_texts[:]:
         text.draw(screen, font)
         if text.life <= 0:
             damage_texts.remove(text)
               
-    score.update()
-    # score.draw(screen)
     if aid_kit:
         screen.blit(aid_kit_img, (aid_kit["x"], aid_kit["y"]))
     draw_hud(screen, hero, score, game_state)   
@@ -534,5 +530,5 @@ while run:
             hero.health = 100
             aid_kit = None
         
-
+    score.update()
     drawtheGame()
