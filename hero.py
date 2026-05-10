@@ -157,10 +157,10 @@ class Hero():
             )
   
     def update_hitbox(self):
-            # نأخذ المنتصف الحقيقي للشخصية وندع هامش من كل جهة
-        margin_x = int(self.width * 0.30)   # 30% من كل جانب
-        margin_top = int(self.height * 0.20) # 20% من فوق
-        margin_bot = int(self.height * 0.10) # 10% من تحت
+            #we take the middle of the caracter and let a distance in both sides
+        margin_x = int(self.width * 0.30)   # 30% from both sides
+        margin_top = int(self.height * 0.20) # 20% from the upper
+        margin_bot = int(self.height * 0.10) # 10% from the bottom
         self.hitbox = pygame.Rect(
             self.x + margin_x,
             self.y + margin_top,
