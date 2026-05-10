@@ -1,95 +1,6 @@
 import pygame
 
 # ********************************************** MAIN FRAMES ********************************************** #
-#---------------- ZOMBIE BOSS ---------------- #
-
-# walk #
-zombie_boss_walk = {
-    "right" : [pygame.transform.scale (pygame.image.load("zombie_boss/walk/R1.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/R2.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/R3.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/R4.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/R5.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/R6.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/R7.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/R8.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/R9.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/R10.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/R11.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/R12.png"),(200,200))],
-    "left" : [pygame.transform.scale (pygame.image.load("zombie_boss/walk/L1.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/L2.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/L3.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/L4.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/L5.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/L6.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/L7.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/L8.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/L9.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/L10.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/L11.png"),(200,200)),
-pygame.transform.scale (pygame.image.load("zombie_boss/walk/L12.png"),(200,200))]
-}
-
-# attack #
-zombie_boss_attack = {
-    "right" : [pygame.transform.scale (pygame.image.load("zombie_boss/attack/R1.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/R2.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/R3.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/R4.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/R5.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/R6.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/R7.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/R8.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/R9.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/R10.png"),(200,200))],
-    "left" : [pygame.transform.scale (pygame.image.load("zombie_boss/attack/L1.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/L2.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/L3.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/L4.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/L5.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/L6.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/L7.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/L8.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/L9.png"),(200,200)),
-    pygame.transform.scale (pygame.image.load("zombie_boss/attack/L10.png"),(200,200))]
-}
-
-# die #
-zombie_boss_die = {
-    "right" : [pygame.transform.scale (pygame.image.load("zombie_boss/die/R1.png"),(200,200)),
-               pygame.transform.scale (pygame.image.load("zombie_boss/die/R2.png"),(200,200)),
-               pygame.transform.scale (pygame.image.load("zombie_boss/die/R3.png"),(200,200)),
-               pygame.transform.scale (pygame.image.load("zombie_boss/die/R4.png"),(200,200)),
-               pygame.transform.scale (pygame.image.load("zombie_boss/die/R5.png"),(200,200))],
-    "left" : [pygame.transform.scale (pygame.image.load("zombie_boss/die/L1.png"),(200,200)),
-               pygame.transform.scale (pygame.image.load("zombie_boss/die/L2.png"),(200,200)),
-               pygame.transform.scale (pygame.image.load("zombie_boss/die/L3.png"),(200,200)),
-               pygame.transform.scale (pygame.image.load("zombie_boss/die/L4.png"),(200,200)),
-               pygame.transform.scale (pygame.image.load("zombie_boss/die/L5.png"),(200,200))]
-}
-
-# hurt # 
-zombie_boss_hurt = {
-    "right" : [pygame.transform.scale (pygame.image.load("zombie_boss/hurt/R1.png"),(200,200)),
-               pygame.transform.scale (pygame.image.load("zombie_boss/hurt/R2.png"),(200,200)),
-               pygame.transform.scale (pygame.image.load("zombie_boss/hurt/R3.png"),(200,200)),
-               pygame.transform.scale (pygame.image.load("zombie_boss/hurt/R4.png"),(200,200))],
-    "left" : [pygame.transform.scale (pygame.image.load("zombie_boss/hurt/L1.png"),(200,200)),
-               pygame.transform.scale (pygame.image.load("zombie_boss/hurt/L2.png"),(200,200)),
-               pygame.transform.scale (pygame.image.load("zombie_boss/hurt/L3.png"),(200,200)),
-               pygame.transform.scale (pygame.image.load("zombie_boss/hurt/L4.png"),(200,200))]
-}
-               
-
-
-
-boss_types_walk = [zombie_boss_walk]
-boss_types_attack = [zombie_boss_attack]
-boss_types_die = [zombie_boss_die]
-boss_types_hurt = [zombie_boss_hurt]
-
-
 
 #                                   ===============  HERO  ===============
 # ATTACK1 - Sprite Sheet
@@ -295,12 +206,51 @@ for i in range(_z3_frame_die_Count):
     z3_frame_of_die = _z3_diesheet.subsurface(_z3_diewidth * i , 0 , _z3_diewidth, _z3_dieheight)
     zombie_3_die["right"].append(z3_frame_of_die)
     zombie_3_die["left"].append(pygame.transform.flip(z3_frame_of_die,True,False))
-    
-    
-    
-    
-    
-    
+#---------------- ZOMBIE BOSS ----------------#
+# WALK - Sprite Sheet
+_zb_walksheet = pygame.image.load("zombie_boss/walk_sheet.png")
+_zb_frame_walk_Count = 12
+_zb_walkwidth = _zb_walksheet.get_width() // _zb_frame_walk_Count
+_zb_walkheight = _zb_walksheet.get_height()
+zombie_boss_walk = {"right" : [] , "left" : []}
+for i in range(_zb_frame_walk_Count):
+    zb_frame_of_walk = _zb_walksheet.subsurface(_zb_walkwidth * i , 0 , _zb_walkwidth, _zb_walkheight)
+    zb_frame_of_walk = pygame.transform.scale(zb_frame_of_walk,(200,200))
+    zombie_boss_walk["right"].append(zb_frame_of_walk)
+    zombie_boss_walk["left"].append(pygame.transform.flip(zb_frame_of_walk,True,False))
+# ATTACK - Sprite Sheet
+_zb_attacksheet = pygame.image.load("zombie_boss/attack_sheet.png")
+_zb_frame_attack_Count = 10
+_zb_attackwidth = _zb_attacksheet.get_width() // _zb_frame_attack_Count
+_zb_attackheight = _zb_attacksheet.get_height()
+zombie_boss_attack = {"right" : [] , "left" : []}
+for i in range(_zb_frame_attack_Count):
+    zb_frame_of_attack = _zb_attacksheet.subsurface(_zb_attackwidth * i , 0 , _zb_attackwidth, _zb_attackheight)
+    zb_frame_of_attack = pygame.transform.scale(zb_frame_of_attack,(200,200))
+    zombie_boss_attack["right"].append(zb_frame_of_attack)
+    zombie_boss_attack["left"].append(pygame.transform.flip(zb_frame_of_attack,True,False))
+# HURT - Sprite Sheet
+_zb_hurtsheet = pygame.image.load("zombie_boss/hurt_sheet.png")
+_zb_frame_hurt_Count = 4
+_zb_hurtwidth = _zb_hurtsheet.get_width() // _zb_frame_hurt_Count
+_zb_hurtheight = _zb_hurtsheet.get_height()
+zombie_boss_hurt = {"right" : [] , "left" : []}
+for i in range(_zb_frame_hurt_Count):
+    zb_frame_of_hurt = _zb_hurtsheet.subsurface(_zb_hurtwidth * i , 0 , _zb_hurtwidth, _zb_hurtheight)
+    zb_frame_of_hurt = pygame.transform.scale(zb_frame_of_hurt,(200,200))
+    zombie_boss_hurt["right"].append(zb_frame_of_hurt)
+    zombie_boss_hurt["left"].append(pygame.transform.flip(zb_frame_of_hurt,True,False))
+# DIE - Sprite Sheet
+_zb_diesheet = pygame.image.load("zombie_boss/die_sheet.png")
+_zb_frame_die_Count = 5
+_zb_diewidth = _zb_diesheet.get_width() // _zb_frame_die_Count
+_zb_dieheight = _zb_diesheet.get_height()
+zombie_boss_die = {"right" : [] , "left" : []}
+for i in range(_zb_frame_die_Count):
+    zb_frame_of_die = _zb_diesheet.subsurface(_zb_diewidth * i , 0 , _zb_diewidth, _zb_dieheight)
+    zb_frame_of_die = pygame.transform.scale(zb_frame_of_die,(200,200))
+    zombie_boss_die["right"].append(zb_frame_of_die)
+    zombie_boss_die["left"].append(pygame.transform.flip(zb_frame_of_die,True,False))
     
     
     # ********************************************** MAIN LISTS ********************************************** #
@@ -312,3 +262,9 @@ zombies_types_walk = [zombie_1_walk, zombie_2_walk, zombie_3_walk]
 zombies_types_attack = [zombie_1_attack, zombie_2_attack, zombie_3_attack]
 zombies_types_die = [zombie_1_die, zombie_2_die, zombie_3_die]
 zombies_types_hurt = [zombie_1_hurt, zombie_2_hurt, zombie_3_hurt]
+
+#zombie boss :
+boss_types_walk = [zombie_boss_walk]
+boss_types_attack = [zombie_boss_attack]
+boss_types_die = [zombie_boss_die]
+boss_types_hurt = [zombie_boss_hurt]
