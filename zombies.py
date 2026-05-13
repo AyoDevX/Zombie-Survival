@@ -51,7 +51,7 @@ class Zombie():
         if not self.isAlive:
             return
         if not self.isAttacking and not self.isHurt and not self.isDying:
-            self.move()
+            self.move(hero)
         
 
     # direction
@@ -96,9 +96,22 @@ class Zombie():
         if self.walkCount >= len(self.type[direction]) * 2:
             self.walkCount = 0
         self.draw_health_bar(screen)
-
-    def move(self):
-       
+    
+    def move(self, hero=None):
+        # if the zombie is a boss 
+        if self.width > 100 and hero is not None:
+            distance = abs(self.x - hero.x)
+            if distance < 140:  
+                # the boss move faster x 2
+                chase_speed = 2 + abs(self.step)
+                if self.x < hero.x:
+                    self.x += chase_speed  
+                    self.step = abs(self.step)   # ← right side
+                else:
+                    self.x -= chase_speed
+                    self.step = -abs(self.step)  # ← left side
+                return
+        # a normal movement for the normal zombie
         if self.step > 0:
             if self.x + self.step > self.end:
                 self.step *= -1
@@ -109,7 +122,7 @@ class Zombie():
                 self.step *= -1
             else:
                 self.x += self.step
-                
+
     def check_attack(self, hero):
         if not self.isAlive or self.isDying:
             return
